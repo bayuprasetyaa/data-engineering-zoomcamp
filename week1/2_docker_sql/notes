@@ -1,0 +1,50 @@
+docker run -it \
+  -e POSTGRES_USER="root" \
+  -e POSTGRES_PASSWORD="root" \
+  -e POSTGRES_DB="ny_taxi" \
+  -v ${pwd}/ny_taxi_postgres_data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  --network=pg-network \
+  --name pg-database \
+  postgres:13
+
+  docker run -it \
+  --network=pg-network \
+  taxi_ingest:v001 \
+    --user=root \
+    --password=root \
+    --host=pgdatabase \
+    --port=5432 \
+    --db=ny_taxi \
+    --table_name=yellow_taxi_trips \
+    --url=${URL}
+  
+  docker run -it \
+  --network=2_docker_sql_default \
+  taxi_ingest:v001 \
+    --user=root \
+    --password=root \
+    --host=pgdatabase \
+    --port=5432 \
+    --db=ny_taxi \
+    --table_name=zones \
+    --url=${URL}
+
+  
+  python ingest_data_zones.py \ 
+  --user=root \
+  --password=root \
+  --host=pgdatabase \
+  --port=5432 \
+  --db=ny_taxi \
+  --table_name=zones \
+  --url=${URL}
+
+  ## SQL 1
+SELECT 
+	COUNT(1)
+FROM
+	yellow_taxi_trips
+WHERE
+	tpep_pickup_datetime > '2021-01-14 24:00:00.000' AND
+	tpep_pickup_datetime < '2021-01-16 00:00:00.000'
