@@ -6,5 +6,4 @@
 ## Airflow Setup
     - Rename "key.JSON" -> "google_credential.json"
     - Make directory for google credential
-`cd ~ && mkdir -p ~/.google/credentials/`
-    - 
+```cd ~ && mkdir -p ~/.google/credentials/```
