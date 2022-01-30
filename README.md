@@ -7,4 +7,6 @@
 - Rename "key.JSON" -> "google_credential.json"
 - Make directory for google credential
     
-    `cd ~ && mkdir -p ~/.google/credentials/`
+    ``` bash
+    cd ~ && mkdir -p ~/.google/credentials/
+    ```
